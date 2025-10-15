@@ -1,36 +1,10 @@
 import { useState } from "react";
 import { User, Mail, Lock, ArrowRight } from "lucide-react";
-
-// Mock API e navigate para demonstração
-const api = {
-  post: async () => ({}),
-};
-const navigate = (path: string) => console.log("Navigate to:", path);
-
-function Link({
-  to,
-  children,
-  className,
-}: {
-  to: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <a
-      href={to}
-      className={className}
-      onClick={(e) => {
-        e.preventDefault();
-        navigate(to);
-      }}
-    >
-      {children}
-    </a>
-  );
-}
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api/api";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -38,7 +12,8 @@ export default function Signup() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      //   await api.post("/auth/signup", { nome, email, senha });
+      const resp = await api.post("/auth/signup", { nome, email, senha });
+      console.log(resp.data);
       navigate("/login");
     } catch (err: any) {
       alert(err.response?.data?.message || "Erro ao cadastrar");

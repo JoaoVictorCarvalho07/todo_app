@@ -4,21 +4,32 @@ import Signup from "./pages/SignUp";
 import Tasks from "./pages/Tasks";
 
 export default function App() {
-  const token = localStorage.getItem("token");
-
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
-          element={token ? <Navigate to="/tasks" /> : <Navigate to="/login" />}
+          element={
+            localStorage.getItem("token") ? (
+              <Navigate to="/tasks" />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/tasks" element={<Tasks />} />
         <Route
-          path="/tasks"
-          element={token ? <Tasks /> : <Navigate to="/login" />}
-        />
+          path="*"
+          element={
+            localStorage.getItem("token") ? (
+              <Navigate to="/tasks" />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />{" "}
       </Routes>
     </BrowserRouter>
   );

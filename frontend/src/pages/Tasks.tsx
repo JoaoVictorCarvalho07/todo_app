@@ -31,6 +31,7 @@ export default function Tasks() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     navigate("/login");
   };
 
