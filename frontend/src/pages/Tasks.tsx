@@ -3,6 +3,7 @@ import api from "../api/api";
 import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
 import { useNavigate } from "react-router-dom";
+import { LogOut } from "react-feather";
 
 export interface Task {
   id: number;
@@ -11,7 +12,6 @@ export interface Task {
   status: string;
   data_criacao: string;
 }
-
 export default function Tasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const navigate = useNavigate();
@@ -26,24 +26,34 @@ export default function Tasks() {
       setTasks(data);
     } catch {
       alert("Sessão expirada. Faça login novamente.");
-      localStorage.removeItem("token");
       navigate("/login");
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
     navigate("/login");
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Minhas Tarefas</h1>
-        <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded">Sair</button>
+    <div className="min-h-screen bg-neutral-50">
+      <div className="max-w-3xl mx-auto px-6 py-12">
+        <div className="flex justify-between items-center mb-12">
+          <div>
+            <h1 className="text-4xl font-bold text-neutral-900 mb-2">Tarefas</h1>
+            <p className="text-neutral-500">Organize seu dia de forma simples</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-5 py-2.5 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-all duration-200"
+          >
+            <LogOut size={18} />
+            <span className="font-medium">Sair</span>
+          </button>
+        </div>
+        
+        <TaskForm onTaskCreated={loadTasks} />
+        <TaskList tasks={tasks} onUpdate={loadTasks} />
       </div>
-      <TaskForm onTaskCreated={loadTasks} />
-      <TaskList tasks={tasks} onUpdate={loadTasks} />
     </div>
   );
 }
