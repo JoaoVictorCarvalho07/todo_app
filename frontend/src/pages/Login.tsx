@@ -1,22 +1,33 @@
 import { useState } from "react";
-import { Mail, Lock, ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { ArrowRight, Lock, Mail } from "lucide-react";
 import api from "../api/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+
+
+
     try {
-      const { data } = await api.post("/auth/signin", { email, senha });
+      const { data } = await api.post("auth/signin", {
+        email,
+        senha,
+      });
+
       localStorage.setItem("token", data.token);
       navigate("/tasks");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Erro ao entrar");
+      const message =
+        err.response?.data?.message || "Erro inesperado. Tente novamente.";
+      setError(message);
     }
   };
 
@@ -29,6 +40,12 @@ export default function Login() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+          {error && (
+            <div className="mb-4 bg-red-50 border border-red-300 text-red-700 text-sm rounded-lg px-4 py-3">
+              {error}
+            </div>
+          )}
+
           <div className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -42,7 +59,7 @@ export default function Login() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
                   placeholder="joao@example.com"
                   required
                 />
@@ -61,7 +78,7 @@ export default function Login() {
                   type="password"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900"
                   placeholder="••••••••"
                   required
                 />
