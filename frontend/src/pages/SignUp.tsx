@@ -19,43 +19,48 @@ export default function Signup() {
 
   const newErrors: any = {};
 
-  // Regex padrões
+  // Regex para validação
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const senhaRegex =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[.,@!#$%¨&*()_])[A-Za-z\d.@!#$%¨&*()_]{6,}$/;
 
   const validate = () => {
-    const newErrors: any = {};
-
     if (!nome.trim()) newErrors.nome = "O nome é obrigatório.";
-    if (!emailRegex.test(email)) newErrors.email = "Digite um email válido.";
+    if (!emailRegex.test(email))
+      newErrors.email = "Digite um email válido no formato exemplo@dominio.com";
     if (!senhaRegex.test(senha))
       newErrors.senha =
-        "A senha deve ter pelo menos 6 caracteres e incluir letras e números.";
+        "A senha deve ter pelo menos 6 caracteres, incluir letras e números e um caracter especial.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSenhaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrors((prev) => ({ ...prev, senha: "" }));
     setSenha(e.target.value);
-    if (!e.target.value.trim()) {
-      newErrors.senha = "A senha é obrigatória.";
-      return;
+    if (!senhaRegex.test(e.target.value)) {
+
+      setErrors((prev) => ({ ...prev, senha: "A senha é obrigatória." }));
     }
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    setErrors((prev) => ({ ...prev, email: "" }));
     if (!emailRegex.test(e.target.value)) {
-      newErrors.email = "Digite um email válido.";
+      setErrors((prev) => ({
+        ...prev,
+        email: "Digite um email válido no formato exemplo@dominio.com",
+      }));
     }
   };
   const handleNomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrors((prev) => ({ ...prev, nome: "" }));
     setNome(e.target.value);
     if (!e.target.value.trim()) {
       newErrors.nome = "O nome é obrigatório.";
-      return;
+      setErrors((prev) => ({ ...prev, nome: "O nome é obrigatório." }));
     }
   };
 
