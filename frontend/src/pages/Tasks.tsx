@@ -40,8 +40,12 @@ export default function Tasks() {
       <div className="max-w-3xl mx-auto px-6 py-12">
         <div className="flex justify-between items-center mb-12">
           <div>
-            <h1 className="text-4xl font-bold text-neutral-900 mb-2">Tarefas</h1>
-            <p className="text-neutral-500">Organize seu dia de forma simples</p>
+            <h1 className="text-4xl font-bold text-neutral-900 mb-2">
+              Tarefas
+            </h1>
+            <p className="text-neutral-500">
+              Organize seu dia de forma simples
+            </p>
           </div>
           <button
             onClick={handleLogout}
@@ -51,8 +55,8 @@ export default function Tasks() {
             <span className="font-medium">Sair</span>
           </button>
         </div>
-        
-        <TaskForm onTaskCreated={loadTasks} />
+
+        <TaskForm onTaskCreated={loadTasks} onUpdate={loadTasks} />
         <TaskList tasks={tasks} onUpdate={loadTasks} />
       </div>
     </div>

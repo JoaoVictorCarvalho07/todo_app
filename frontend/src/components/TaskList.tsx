@@ -1,8 +1,20 @@
 import api from "../api/api";
 import type { Task } from "../pages/Tasks";
-import { Circle, Trash2, CheckCircle2 } from "lucide-react";
+import { Circle, Trash2, CheckCircle2, Pencil } from "lucide-react";
+import EditTaskForm from "./EditTaskForm";
+import { useState } from "react";
 
-export default function TaskList({ tasks, onUpdate }: { tasks: Task[]; onUpdate: () => void }) {
+export default function TaskList({
+  tasks,
+  onUpdate,
+}: {
+  tasks: Task[];
+  onUpdate: () => void;
+}) {
+
+  
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+
   const toggleStatus = async (task: Task) => {
     const newStatus = task.status === "pendente" ? "concluida" : "pendente";
     try {
@@ -11,6 +23,10 @@ export default function TaskList({ tasks, onUpdate }: { tasks: Task[]; onUpdate:
     } catch (err) {
       alert("Erro ao atualizar tarefa");
     }
+  };
+
+  const handleEdit = (task: Task) => {
+    setEditingTaskId(task.id);
   };
 
   const deleteTask = async (id: number) => {
@@ -29,7 +45,9 @@ export default function TaskList({ tasks, onUpdate }: { tasks: Task[]; onUpdate:
       <div className="text-center py-16">
         <Circle size={64} className="mx-auto text-neutral-300 mb-4" />
         <p className="text-neutral-500 text-lg">Nenhuma tarefa ainda</p>
-        <p className="text-neutral-400 text-sm mt-2">Crie sua primeira tarefa para começar</p>
+        <p className="text-neutral-400 text-sm mt-2">
+          Crie sua primeira tarefa para começar
+        </p>
       </div>
     );
   }
@@ -49,7 +67,10 @@ export default function TaskList({ tasks, onUpdate }: { tasks: Task[]; onUpdate:
               {task.status === "concluida" ? (
                 <CheckCircle2 size={24} className="text-neutral-900" />
               ) : (
-                <Circle size={24} className="text-neutral-300 group-hover:text-neutral-400 transition-colors" />
+                <Circle
+                  size={24}
+                  className="text-neutral-300 group-hover:text-neutral-400 transition-colors"
+                />
               )}
             </button>
             <div className="flex-1 min-w-0">
@@ -83,7 +104,27 @@ export default function TaskList({ tasks, onUpdate }: { tasks: Task[]; onUpdate:
             >
               <Trash2 size={18} />
             </button>
+            <button
+              onClick={() => handleEdit(task)}
+              className="flex-shrink-0 p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-all duration-200 opacity-0 group-hover:opacity-100"
+            >
+              <Pencil size={18} />
+            </button>
           </div>
+          {editingTaskId === task.id && (
+            <div className="mt-4">
+              <EditTaskForm
+                taskId={task.id}
+                initialTitle={task.titulo}
+                initialDescription={task.descricao}
+                onCancel={() => setEditingTaskId(null)}
+                onUpdated={() => {
+                  setEditingTaskId(null);
+                  onUpdate();
+                }}
+              />
+            </div>
+          )}
         </div>
       ))}
     </div>
