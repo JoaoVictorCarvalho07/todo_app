@@ -6,7 +6,7 @@ export class AuthController {
     try {
       const { nome, email, senha } = req.body;
       const user = await AuthService.signup(nome, email, senha);
-      res.status(201).json(user);
+      res.status(201).json({ nome: user.nome, email: user.email});
     } catch (err: any) {
       res.status(400).json({ message: err.message });
     }
