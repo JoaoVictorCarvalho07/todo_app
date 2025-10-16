@@ -15,6 +15,10 @@ export default function TaskForm({
 
   const handleSubmitCreate = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
     try {
       await api.post("/tasks", { titulo, descricao, status: "pendente" });
       setTitulo("");
@@ -25,6 +29,14 @@ export default function TaskForm({
     } catch (err) {
       alert("Erro ao criar tarefa");
     }
+  };
+
+  const validateForm = () => {
+    if (!titulo.trim()) {
+      alert("Título é obrigatório");
+      return false;
+    }
+    return true;
   };
 
   return (
