@@ -86,17 +86,17 @@ todo_app/
 ### 1️⃣ Clonar o repositório
 
 ```bash
-git clone https://github.com/JoaoVictorCarvalho07/todo_app
+git clone https://github.com/JoaoVictorCarvalho07/todo_app.git
 cd todo_app
 ```
 
-### 2️⃣ instalar dependências
+### 2️⃣ instalar dependências tanto back quanto frontend
 
 ```bash
-npm run intall:all
+npm run setup
 ```
 
-### 3️⃣ rodar ambos front e backend
+### 3️⃣ rodar ambos front e backend juntos
 
 ```bash
 npm run dev
