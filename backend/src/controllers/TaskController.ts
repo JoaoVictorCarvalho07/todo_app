@@ -14,6 +14,8 @@ export class TaskController {
     const userId = (req as any).userId;
     const userRepo = AppDataSource.getRepository(User);
     const user = await userRepo.findOne({ where: { id: userId } });
+    if (!user)
+      return res.status(404).json({ message: "Usuário não encontrado." });
     const { titulo, descricao } = req.body;
     const task = await TaskService.create(user!, titulo, descricao);
     res.status(201).json(task);
@@ -30,4 +32,5 @@ export class TaskController {
     await TaskService.delete(Number(id));
     res.status(204).send();
   }
+
 }
