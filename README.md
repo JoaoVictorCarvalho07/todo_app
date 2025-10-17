@@ -86,7 +86,7 @@ todo_app/
 ### 1️⃣ Clonar o repositório
 
 ```bash
-git clone https://github.com/JoaoVictorCarvalho07/todo_app
+git clone https://github.com/JoaoVictorCarvalho07/todo_app.git
 cd todo_app
 ```
 
