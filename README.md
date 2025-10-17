@@ -24,7 +24,7 @@ Projeto criado como parte de um desafio técnico de desenvolvedor(a) júnior Ful
 - **Node.js + Express**
 - **TypeScript**
 - **TypeORM**
-- **SQLite** (temporário)
+- **SQLite** (banco temporário)
 - **JWT (JSON Web Token)** para autenticação
 - **Bcrypt** para hash de senhas
 - **Dotenv** para variáveis de ambiente
@@ -81,7 +81,6 @@ todo_app/
 ```
 
 ---
-
 ## 🧰 Instalação e Execução
 
 ### 1️⃣ Clonar o repositório
@@ -91,13 +90,13 @@ git clone https://github.com/JoaoVictorCarvalho07/todo_app
 cd todo_app
 ```
 
-### 1️⃣ instalar dependências
+### 2️⃣ instalar dependências
 
 ```bash
 npm run intall:all
 ```
 
-### 1️⃣ rodar ambos front e backend
+### 3️⃣ rodar ambos front e backend
 
 ```bash
 npm run dev
